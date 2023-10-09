@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>اسکن کیو ار کد با html5-qrcode</title>
+</head>
+<body>
+    <h1>اسکن کیو ار کد</h1>
+    <div id="qr-reader"></div>
+
+    <script src="https://cdn.rawgit.com/mebjas/html5-qrcode/v1.4.0/dist/html5-qrcode.min.js"></script>
+    <script>
+        // متغییری برای نمایش محتوای کد QR ایجاد کنید
+        let qrContent = null;
+
+        // ایجاد یک شی از Html5Qrcode
+        const qrCodeScanner = new Html5Qrcode("qr-reader");
+
+        // تعریف تابعی برای هنگامی که کد QR شناسایی شود
+        const onScanSuccess = (decodedText, decodedResult) => {
+            // مقدار کد QR را در متغییر ذخیره کنید
+            qrContent = decodedText;
+            // متغییری دیگر مانند یک ویژگی DOM یا تابع دیگر را به منظور نمایش محتوا استفاده کنید
+            console.log(`محتوای کد QR: ${qrContent}`);
+            // توقف اسکن کردن بعد از یک بار شناسایی کد QR
+            qrCodeScanner.clear();
+        };
+
+        // باز کردن دوربین عقب گوشی
+        qrCodeScanner.start({ cameraId: { exact: 'environment' } }, onScanSuccess)
+            .catch((err) => {
+                console.error('خطا در باز کردن دوربین:', err);
+            });
+    </script>
+</body>
+</html>
